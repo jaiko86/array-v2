@@ -1,4 +1,5 @@
 import { protrude } from './protrude'
+import createNumbered from './createNumbered'
 
 describe('array.util.ts', () => {
   describe('protrude()', () => {
@@ -33,7 +34,7 @@ describe('array.util.ts', () => {
         ${'Simple nested case'} | ${6}      | ${[2, 3]}          | ${[[[0, 1, 2], [3, 4, 5]]]}
         ${'5 levels deep'}      | ${24}     | ${[2, 2, 2, 3, 1]} | ${result3}
       `('$description', (arg) => {
-        const items = Array.from(Array(arg.itemCount).keys())
+        const items = createNumbered(arg.itemCount)
         const result = protrude(items, arg.dimensions)
 
         expect(result).toEqual(arg.expected)
