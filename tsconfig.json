@@ -1,7 +1,10 @@
 {
   "compilerOptions": {
     "rootDir": "src/",
-    "outDir": "dist/"
+    "allowJs": true,
+    "declaration": true,
+    "outDir": "dist"
   },
+  "include": ["src/**/*"],
   "exclude": ["src/**/*.spec.ts"]
 }
