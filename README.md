@@ -52,18 +52,14 @@ This can be used to easily create matrices, among others things.
 #### Usage
 
 ```javascript
-const zeroThruNine = Array.from(Array(15).keys())
-const matrix3x5 = protrude(zeroThruNine, [5, 3])
+const length15 = createNumbered(15) // [0, 1, ... , 14]
+const matrix3x5 = protrude(length15, [3, 5])
 /* 
-  matrix3x3 is equal to 
+  matrix3x5 is equal to 
   [
-    [
-      [0, 1, 2, 3, 4],
-      [5, 6, 7, 8, 9],
-      [10, 11, 12, 13, 14],
-    ]
+    [0, 1, 2, 3, 4],
+    [5, 6, 7, 8, 9],
+    [10, 11, 12, 13, 14],
   ]
 */
 ```
-
-The unnecessary outer most layer of array is a known issue.
