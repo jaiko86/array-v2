@@ -1,13 +1,17 @@
-# Array-v2
+# Arraze
 
 Have you ever done a common array operation such as shuffle, and wondered, "why isn't this built
-in?".
+in?". With Arraze, it's still not built in, but at least you don't have to re-implement it.
 
-With Array-v2, it's still not built in, but at least you don't have to re-implement it.
+I am hoping for this library to become the go-to library for your array needs.
+
+> The Github repo's name is `array-v2`, because I wanted to use that name. Unfortunately, a
+> similarly named library already exists and npm won't let me use that name, so it's been renamed to
+> Arraze.
 
 ## Functions
 
-As of this writing, this library only has two functions, and they'll grow as I discover more common
+As of this writing, this library only has four functions, and they'll grow as I discover more common
 array operations, or as I get more requests.
 
 ### Create Numbered
@@ -52,14 +56,37 @@ This can be used to easily create matrices, among others things.
 #### Usage
 
 ```javascript
-const length15 = createNumbered(15) // [0, 1, ... , 14]
-const matrix3x5 = protrude(length15, [3, 5])
-/* 
-  matrix3x5 is equal to 
+const length12 = createNumbered(12)
+const matrix4x3 = protrude(length12)
+/*
+  matrix4x3 is
   [
-    [0, 1, 2, 3, 4],
-    [5, 6, 7, 8, 9],
-    [10, 11, 12, 13, 14],
+    [0,  1,  2],
+    [3,  4,  5],
+    [6,  7,  8],
+    [9, 10, 11]
+  ]
+*/
+
+const length60 = createNumbered(60) // [0, 1, ... , 59]
+const level4Matrix = protrude(length60, [5, 3, 2, 2]) // think 2x2 matrices in 5x3 matrix
+/* 
+  level4Matrix is 
+  [//  -------- COL 0 -------- | --------- COL 1 --------- | --------- COL 2 ---------
+    [[ [  0,  1], [  2,  3] ],   [ [  4,  5], [  6,  7] ],   [ [  8,  9], [  10,  11] ]], // ROW 0
+    [[ [ 12, 13], [ 14, 15] ],   [ [ 16, 17], [ 18, 19] ],   [ [ 20, 21], [  22,  23] ]], // ROW 1
+    [[ [ 24, 25], [ 26, 27] ],   [ [ 28, 29], [ 30, 31] ],   [ [ 32, 33], [  34,  35] ]], // ROW 2
+    [[ [ 36, 37], [ 38, 39] ],   [ [ 40, 41], [ 42, 43] ],   [ [ 44, 45], [  46,  47] ]], // ROW 3
+    [[ [ 48, 49], [ 50, 51] ],   [ [ 52, 53], [ 54, 55] ],   [ [ 56, 57], [  58,  59] ]], // ROW 4
+  ]
+
+  In a simpler view, it's like the following, where each value is another 2x2 matrix
+  [
+    mtx0,  mtx1,  mtx2,
+    mtx3,  mtx4,  mtx5,
+    mtx6,  mtx7,  mtx8,
+    mtx9,  mtx10, mtx11,
+    mtx12, mtx13, mtx14,
   ]
 */
 ```
