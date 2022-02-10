@@ -63,3 +63,26 @@ const matrix3x5 = protrude(length15, [3, 5])
   ]
 */
 ```
+
+### Slices
+
+Do more than one `Array.prototype.slice()` with `slices()`. Given an array and sizes you want them
+to be cut into, it'll return an array of arrays of the items.
+
+#### Usage
+
+```javascript
+const length15 = createNumbered(15) // [0, 1, ... , 14]
+const sizes = createNumbered(5).map((n) => n + 1) // [1, 2, 3, 4, 5]
+const sliced = slices(length15, sizes)
+/*
+slices is equal to 
+[
+  [ 0],                 // length is sizes[0], 1 
+  [ 1,  2],             // length is sizes[1], 2
+  [ 3,  4,  5],         // length is sizes[2], 3
+  [ 6,  7,  8,  9],     // length is sizes[3], 4
+  [10, 11, 12, 13, 14]  // length is sizes[4], 5
+]
+*/
+```
