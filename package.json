@@ -1,14 +1,16 @@
 {
-  "name": "array-v2",
-  "version": "0.0.1",
-  "description": "This npm package will have the array utils you always wanted, but don't have.",
+  "name": "arraze",
+  "version": "1.0.0",
+  "description": "This npm package has the array utils you always wanted, but don't have.",
   "main": "index.js",
   "scripts": {
     "test": "test",
     "ts": "npx ts-node"
   },
   "keywords": [
-    "array"
+    "array",
+    "utility",
+    "shuffle"
   ],
   "author": "jko",
   "license": "ISC",
