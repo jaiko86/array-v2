@@ -1,17 +1,20 @@
 {
   "name": "arraze",
   "version": "1.0.1",
-  "description": "Amazing array util library. Do more with arrays.",
+  "description": "Amazing array utils. Do more with arrays.",
   "main": "index.js",
   "scripts": {
-    "test": "test",
+    "test": "npx jest **/*.spec.ts",
     "ts": "npx ts-node"
   },
   "keywords": [
     "array",
     "utility",
     "shuffle",
-    "matrix"
+    "matrix",
+    "sort",
+    "filter",
+    "utility"
   ],
   "author": "jko",
   "license": "ISC",
