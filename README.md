@@ -1,4 +1,4 @@
-# Arraze
+# Arraze: The amazing array library
 
 Have you ever done a common array operation such as shuffle, and wondered, "why isn't this built
 in?". With Arraze, it's still not built in, but at least you don't have to re-implement it.
@@ -8,6 +8,9 @@ I am hoping for this library to become the go-to library for your array needs.
 > The Github repo's name is `array-v2`, because I wanted to use that name. Unfortunately, a
 > similarly named library already exists and npm won't let me use that name, so it's been renamed to
 > Arraze.
+
+I've written the tests in a way that they can serve as an example of these functions. So if you want
+more examples, see the test for that function.
 
 ## Functions
 
@@ -112,4 +115,50 @@ slices is equal to
   [10, 11, 12, 13, 14]  // length is sizes[4], 5
 ]
 */
+
+// another example
+const length15 = createNumbered(15) // [0, 1, ... , 14]
+const sizes = createNumbered(5)
+  .map((n) => n + 1)
+  .reverse() // [5, 4, 3, 2, 1]
+const sliced = slices(length15, sizes)
+/*
+slices is equal to 
+[
+  [ 0,  1,  2,  3,  4], // length is sizes[0], 5
+  [ 5,  6,  7,  8],     // length is sizes[1], 4
+  [ 9, 10, 11],         // length is sizes[2], 3
+  [12, 13],             // length is sizes[3], 2
+  [14]                  // length is sizes[4], 1
+]
+*/
 ```
+
+### Sort
+
+There comes a time when you need to perform some complex sorting operation. `sort()` provides a
+succinct yet comprehensive set of APIs to sort any arrays, ranging from simple primitives to
+objects.
+
+A major use case for this is sorting table data.
+
+#### Basic usage
+
+```javascript
+
+```
+
+TODO: Make the tests more comprehensive:
+
+- sorting primitives, both ascending and descending
+- consider edge cases, like empty array or something
+- figure out what would happen if the value at the end of the path is an array or something.
+
+## TODO
+
+This is the list of major work I still want to do on this library.
+
+- Implement proper typing, especially ones with multiple function signatures.
+- Improve testing, especially on `sort()`, to provide more examples and cover edge cases.
+- Improve code comments for readability.
+- (Stretch) Create a website for interactive demos.
