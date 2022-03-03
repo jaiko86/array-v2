@@ -112,4 +112,35 @@ slices is equal to
   [10, 11, 12, 13, 14]  // length is sizes[4], 5
 ]
 */
+
+// another example
+const length15 = createNumbered(15) // [0, 1, ... , 14]
+const sizes = createNumbered(5)
+  .map((n) => n + 1)
+  .reverse() // [5, 4, 3, 2, 1]
+const sliced = slices(length15, sizes)
+/*
+slices is equal to 
+[
+  [ 0,  1,  2,  3,  4], // length is sizes[0], 5
+  [ 5,  6,  7,  8],     // length is sizes[1], 4
+  [ 9, 10, 11],         // length is sizes[2], 3
+  [12, 13],             // length is sizes[3], 2
+  [14]                  // length is sizes[4], 1
+]
+*/
 ```
+
+### Sort
+
+There comes a time when you need to perform some complex sorting operation. `sort()` provides a
+succinct yet comprehensive set of APIs to sort any arrays, ranging from simple primitives to
+objects.
+
+#### Basic usage
+
+TODO: Make the tests more comprehensive:
+
+- sorting primitives, both ascending and descending
+- consider edge cases, like empty array or something
+- figure out what would happen if the value at the end of the path is an array or something.
