@@ -1,4 +1,4 @@
-import sort, { primitiveComparators, getNestedObjectValue } from './sort'
+import sort from './sort'
 import createNumbered from './createNumbered'
 import shuffle from './shuffle'
 import slices from './slices'
@@ -12,76 +12,50 @@ const randomString = () => {
 }
 
 describe('sort()', () => {
-  describe('auxiliary functions', () => {
-    describe('primitiveComparators()', () => {
-      it('returns smaller one first when sorting BigInt or number', () => {
-        const arr = [3, 1, 2]
-        arr.sort(primitiveComparators)
-        expect(arr).toEqual([1, 2, 3])
-
-        const arr2 = [3n, 1n, 2n]
-        arr2.sort(primitiveComparators)
-        expect(arr2).toEqual([1n, 2n, 3n])
+  describe('sorts primitives without argument', () => {
+    describe('sorts array of numbers', () => {
+      test('Simple number array', () => {
+        const sorted = createNumbered(10)
+        const shuffled = shuffle([...sorted])
+        expect(shuffled).not.toEqual(sorted)
+        const result = sort(shuffled)
+        expect(result).toEqual(sorted)
       })
-      it('returns lexicographically', () => {
-        const arr = ['c', 'a', 'b', 'bb']
-        arr.sort(primitiveComparators)
-        expect(arr).toEqual(['a', 'b', 'bb', 'c'])
-      })
-    })
-    describe('getNestedObjectValue()', () => {
-      it('returns the value at the end of a given path', () => {
-        const value = getNestedObjectValue({ a: { b: { c: 'value' } } }, ['a', 'b', 'c'])
-        expect(value).toBe('value')
-      })
-      it('returns the first argument if path is empty', () => {
-        const value = getNestedObjectValue(12345, [])
-        expect(value).toBe(12345)
+      test('Large number array', () => {
+        const sorted = createNumbered(100000)
+        const shuffled = shuffle([...sorted])
+        expect(shuffled).not.toEqual(sorted)
+        const result = sort(shuffled)
+        expect(result).toEqual(sorted)
       })
     })
-  })
-  describe('sorts array of numbers', () => {
-    test('Simple number array', () => {
-      const sorted = createNumbered(10)
-      const shuffled = shuffle([...sorted])
-      expect(shuffled).not.toEqual(sorted)
-      const result = sort(shuffled)
-      expect(result).toEqual(sorted)
+    describe('sorts array of strings', () => {
+      test('Simple string array', () => {
+        const randomStrings = createNumbered(10).map(randomString)
+        const result = sort(randomStrings)
+        const isSorted = isLexicographicallySorted(result)
+        expect(isSorted)
+      })
+      test('Large string array', () => {
+        const randomStrings = createNumbered(1000).map(randomString)
+        const result = sort(randomStrings)
+        expect(isLexicographicallySorted(result))
+      })
     })
-    test('Large number array', () => {
-      const sorted = createNumbered(100000)
-      const shuffled = shuffle([...sorted])
-      expect(shuffled).not.toEqual(sorted)
-      const result = sort(shuffled)
-      expect(result).toEqual(sorted)
+    describe('sorts array of booleans', () => {
+      test('Simple boolean array', () => {
+        const bools = createNumbered(100).map((n) => !!(n % 2))
+        const shuffled = shuffle(bools)
+        const sorted = sort(shuffled)
+        const [trues, falses] = slices(sorted, [50, 50])
+        expect(trues.every(Boolean))
+        expect(falses.every((b) => !Boolean(b)))
+      })
     })
-  })
-  describe('sorts array of strings', () => {
-    test('Simple string array', () => {
-      const randomStrings = createNumbered(10).map(randomString)
-      const result = sort(randomStrings)
-      const isSorted = result.map((str, i, arr) =>
-        i ? str.localeCompare(arr[i - 1]) === -1 : true,
-      )
-      expect(isSorted)
-    })
-    test('Large string array', () => {
-      const randomStrings = createNumbered(1000).map(randomString)
-      const result = sort(randomStrings)
-      expect(isLexicographicallySorted(result))
-    })
-  })
-  describe('sorts array of booleans', () => {
-    test('Simple boolean array', () => {
-      const bools = createNumbered(100).map((n) => !!(n % 2))
-      const shuffled = shuffle(bools)
-      const sorted = sort(shuffled)
-      const [trues, falses] = slices(sorted, [50, 50])
-      expect(trues.every(Boolean))
-      expect(falses.every((b) => !Boolean(b)))
-    })
+    // TODO: decide whether to duplicate the work in sort.utils.spec.ts
   })
   describe('sorts array of objects', () => {
+    // Re write the tests so it tests each call signature
     test('Simple objects with duplicate names', () => {
       const profiles = [
         { id: 0, name: 'Adam', age: 20 },
@@ -91,7 +65,7 @@ describe('sort()', () => {
         { id: 4, name: 'Charlie', age: 38 },
         { id: 5, name: 'Charlie', age: 40 },
       ]
-      const shuffled = shuffle<typeof profiles[0]>(profiles)
+      const shuffled = shuffle(profiles)
       const sorted = sort(shuffled, ['name', 'age'])
       expect(isIncreasing(sorted.map((profile) => profile.id)))
       expect(isIncreasing(sorted.map((profile) => profile.age)))
@@ -109,7 +83,7 @@ describe('sort()', () => {
         { id: 6, name: { first: 'E', last: 'B' }, birthday: { year: 0, month: 0, date: 0 } },
         { id: 7, name: { first: 'E', last: 'B' }, birthday: { year: 1, month: 3, date: 0 } },
       ]
-      const shuffled = shuffle<typeof profiles[0]>([...profiles])
+      const shuffled = shuffle([...profiles])
       expect(shuffled.map(({ id }) => id)).not.toEqual(createNumbered(8))
       const sorted = sort(profiles, [
         ['name', 'last'],
@@ -118,5 +92,54 @@ describe('sort()', () => {
       ])
       expect(sorted.map((profile) => profile.id)).toEqual([0, 3, 1, 2, 6, 4, 5, 7])
     })
+  })
+  // TODO: Test fails10,
+  it('sort by providing shape to the value to be evaluated for comparison', () => {
+    const objectA = {
+      _name: 'A',
+      a: {
+        b: {
+          c: {
+            d: 1,
+          },
+        },
+      },
+    }
+    const objectB = {
+      _name: 'B',
+      a: {
+        b: {
+          c: {
+            d: 0,
+          },
+        },
+      },
+    }
+    const objectC = {
+      _name: 'C',
+      a: {
+        b: {
+          c: {
+            d: 2,
+          },
+        },
+      },
+    }
+    const shapeComparator = {
+      a: {
+        b: {
+          c: {
+            d: {
+              priority: 1,
+              comparator: (a: number, b: number) => a - b,
+            },
+          },
+        },
+      },
+    }
+    const arr = [objectA, objectB, objectC]
+    // @ts-ignore : TODO fix this shit
+    const result = sort(arr, shapeComparator)
+    expect(result.map((item) => item._name)).toEqual(['B', 'A', 'C'])
   })
 })
