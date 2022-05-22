@@ -30,7 +30,6 @@ function sort<T = KeyValueObject>(
   items: T[],
   strategies: ObjectSortingStrategyByShape,
 ): typeof items
-
 function sort<T = KeyValueObject>(items: T[], evaluator: Evaluator): typeof items
 function sort<T = KeyValueObject>(items: T[], evaluators: Evaluator[]): typeof items
 

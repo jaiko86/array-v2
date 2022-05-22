@@ -1,25 +1,18 @@
-export type Comparator<T> = (a: T, b: T) => number
+export type Comparator = (a: any, b: any) => number
 
 export type Primitive = number | boolean | string | bigint | symbol
 
 export type Direction = 'asc' | 'desc'
 
-/* TODO: Maybe change to 
-  export type KeyValueObject<T> = {
-    [key: string]: Primitive | KeyValueObject<T> | T
-  }
-*/
-export type KeyValueObject<T> = {
+export type KeyValueObject<T = any> = {
   [key: string]: Primitive | KeyValueObject<T> | T
 }
 
-// TODO: This needs to be fixed; it should really be something like
-// KeyValueObject<ComparatorWrapper | DirectionWrapper>
 export type ObjectSortingStrategyByShape = KeyValueObject<ComparatorWrapper | DirectionWrapper>
 
 export type ComparatorWrapper = {
   priority: number
-  comparator: Comparator<KeyValueObject<any> | Primitive>
+  comparator: Comparator
 }
 
 export type DirectionWrapper = {
@@ -34,7 +27,7 @@ export type GenericObjectSortingStrategy = {
 
 export type ObjectSortingStrategy = {
   path: string[]
-  comparator: Comparator<KeyValueObject<any> | Primitive>
+  comparator: Comparator
 }
 
 // When given an item in an array, returns a primitive value that can

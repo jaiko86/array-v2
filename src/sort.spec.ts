@@ -3,6 +3,7 @@ import createNumbered from './createNumbered'
 import shuffle from './shuffle'
 import slices from './slices'
 import { isIncreasing, isLexicographicallySorted } from './verify'
+import { ComparatorWrapper, ObjectSortingStrategyByShape } from './types'
 
 const randomString = () => {
   const chars = createNumbered(122).map((n) => String.fromCharCode(n + 1))
@@ -52,7 +53,6 @@ describe('sort()', () => {
         expect(falses.every((b) => !Boolean(b)))
       })
     })
-    // TODO: decide whether to duplicate the work in sort.utils.spec.ts
   })
   describe('sorts array of objects', () => {
     // Re write the tests so it tests each call signature
@@ -93,7 +93,6 @@ describe('sort()', () => {
       expect(sorted.map((profile) => profile.id)).toEqual([0, 3, 1, 2, 6, 4, 5, 7])
     })
   })
-  // TODO: Test fails10,
   it('sort by providing shape to the value to be evaluated for comparison', () => {
     const objectA = {
       _name: 'A',
@@ -125,7 +124,7 @@ describe('sort()', () => {
         },
       },
     }
-    const shapeComparator = {
+    const shapeComparator: ObjectSortingStrategyByShape = {
       a: {
         b: {
           c: {
@@ -138,7 +137,6 @@ describe('sort()', () => {
       },
     }
     const arr = [objectA, objectB, objectC]
-    // @ts-ignore : TODO fix this shit
     const result = sort(arr, shapeComparator)
     expect(result.map((item) => item._name)).toEqual(['B', 'A', 'C'])
   })

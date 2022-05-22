@@ -6,6 +6,7 @@ import {
   ObjectSortingStrategyByShape,
   Primitive,
   Comparator,
+  KeyValueObject,
 } from '../types'
 import {
   isBigInt,
@@ -25,7 +26,7 @@ export const DIRECTIONS: Direction[] = ['asc', 'desc']
 
 export const jsNativeComparator = (a: any, b: any) => ([a, b].sort()[0] === a ? -1 : 1)
 
-export const primitiveComparator: Comparator<Primitive> = (a: Primitive, b: Primitive): number => {
+export const primitiveComparator: Comparator = (a: Primitive, b: Primitive): number => {
   const numberComparator = (a: number | bigint, b: number | bigint): number =>
     Number(BigInt(a) - BigInt(b))
   const stringComparator = (a: string, b: string): number => a.localeCompare(b)
@@ -43,8 +44,8 @@ export const primitiveComparator: Comparator<Primitive> = (a: Primitive, b: Prim
   } else if (args.every(isSymbol)) {
     return stringComparator(a.toString(), b.toString())
   }
-  // TODO: throw an error here instead?
-  return jsNativeComparator(a, b)
+
+  throw new Error(`Invalid comparison: ${String(a)} and ${String(b)} cannot be compared.`)
 }
 
 // TODO: consider sorting numbers in ascending order, and everything else
@@ -65,15 +66,17 @@ export const getPathsAndComparators = (
         comparator: getPrimitiveComparator(direction),
       }
     } else if (isComparatorWrapper(obj)) {
-      // @ts-ignore
-      const { priority, comparator } = <ComparatorWrapper>obj
+      // TODO: fix typing
+      const { priority, comparator } = obj as unknown as ComparatorWrapper
       strategies[priority] = {
         path: [...path],
         comparator,
       }
     } else {
-      // @ts-ignore
-      Object.entries(obj).forEach(([key, val]) => internalHelper(val, [...path, key]))
+      Object.entries(obj).forEach(
+        //@ts-ignore TODO: fix typing
+        ([key, val]) => internalHelper(val, [...path, key]),
+      )
     }
   }
 
