@@ -3,7 +3,6 @@ import createNumbered from './createNumbered'
 import shuffle from './shuffle'
 import slices from './slices'
 import { isIncreasing, isLexicographicallySorted } from './verify'
-import { ComparatorWrapper, ObjectSortingStrategyByShape } from './types'
 
 const randomString = () => {
   const chars = createNumbered(122).map((n) => String.fromCharCode(n + 1))
@@ -44,6 +43,11 @@ describe('sort()', () => {
       })
     })
     describe('sorts array of booleans', () => {
+      test('Large boolean array', () => {
+        const [first, second] = sort([false, true])
+        expect(first).toBe(true)
+        expect(second).toBe(false)
+      })
       test('Simple boolean array', () => {
         const bools = createNumbered(100).map((n) => !!(n % 2))
         const shuffled = shuffle(bools)
@@ -124,7 +128,7 @@ describe('sort()', () => {
         },
       },
     }
-    const shapeComparator: ObjectSortingStrategyByShape = {
+    const shapeComparator = {
       a: {
         b: {
           c: {

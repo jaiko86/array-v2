@@ -5,12 +5,19 @@ import { getNestedObjectValue } from './utils/misc.utils'
  * The function returns an array of unique items based on some unique primitive value
  * associated with each item.
  *
- * @param array
- * @param uniqueDeterminer
+ * @param array The array from which unique items will be filtered
  * @returns
  */
-
 function filterUnique<T = Primitive>(array: T[]): T[]
+/**
+ * @param array The array from which unique items will be filtered
+ * @param uniqueDeterminer  The array from which unique items will be filtered
+ *  The array from which unique items will be filtered
+ *  The array from which unique items will be filtered
+ *  The array from which unique items will be filtered
+ * @returns
+ */
+function filterUnique<T = Primitive>(array: T[], uniqueDeterminer): T[]
 function filterUnique(
   array: (Primitive | KeyValueObject)[],
   uniqueDeterminer?:

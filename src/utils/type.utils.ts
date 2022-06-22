@@ -14,7 +14,7 @@ enum ObjectTypes {
 }
 
 export const isType = (type: string) => (arg: any) => typeof arg === type
-export const isBoolean = isType(PrimitiveTypes.STRING)
+export const isBoolean = isType(PrimitiveTypes.BOOLEAN)
 export const isString = isType(PrimitiveTypes.STRING)
 export const isNumber = isType(PrimitiveTypes.NUMBER)
 export const isSymbol = isType(PrimitiveTypes.SYMBOL)
