@@ -4,6 +4,7 @@
   "description": "Amazing array utils. Do more with arrays.",
   "main": "index.js",
   "scripts": {
+    "build": "npx tsc",
     "test": "npx jest **/*.spec.ts",
     "ts": "npx ts-node"
   },
