@@ -22,7 +22,9 @@ export const isBigInt = isType(PrimitiveTypes.BIGINT)
 export const isUndefined = isType(PrimitiveTypes.UNDEFINED)
 export const isNull = (arg: any) => arg === null
 export const isFunction = isType(ObjectTypes.FUNCTION)
-export const isObject = isType(ObjectTypes.OBJECT)
+// typeof null is 'object'
+export const isObject = (arg: any) =>
+  !isNull(arg) && !Array.isArray(arg) && isType(ObjectTypes.OBJECT)(arg)
 // except undefined
 export const isPrimitive = (arg: any) =>
   [isNumber, isBigInt, isBoolean, isString, isSymbol].some((isPrimitive) => isPrimitive(arg))
