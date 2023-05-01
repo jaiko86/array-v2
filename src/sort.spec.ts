@@ -71,9 +71,10 @@ describe('sort()', () => {
       ]
       const shuffled = shuffle(profiles)
       const sorted = sort(shuffled, ['name', 'age'])
-      expect(isIncreasing(sorted.map((profile) => profile.id)))
-      expect(isIncreasing(sorted.map((profile) => profile.age)))
-      expect(isLexicographicallySorted(sorted.map((profile) => profile.name)))
+      expect(isIncreasing(sorted.map((profile) => profile.id))).toBe(true)
+      expect(isIncreasing(sorted.map((profile) => profile.age))).toBe(true)
+      const names = sorted.map((profile) => profile.name)
+      expect(isLexicographicallySorted(names)).toBe(true)
     })
 
     test('Complex objects with duplicate fields', () => {
@@ -88,7 +89,7 @@ describe('sort()', () => {
         { id: 7, name: { first: 'E', last: 'B' }, birthday: { year: 1, month: 3, date: 0 } },
       ]
       const shuffled = shuffle([...profiles])
-      expect(shuffled.map(({ id }) => id)).not.toEqual(createNumbered(8))
+      expect(shuffled).not.toEqual(profiles)
       const sorted = sort(profiles, [
         ['name', 'last'],
         ['birthday', 'month'],
